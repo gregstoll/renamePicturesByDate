@@ -2,12 +2,15 @@ import sys, os, re, datetime
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'exifpy'))
 import exifread
 
-def renamePhotos(path):
+def renamePhotos(path, splitByYear):
 	dirs = []
-	for name in os.listdir(path):
-		# only include years
-		if (re.match(r'^\d{4}$', name) and os.path.isdir(os.path.join(name, path))):
-			dirs.append(os.path.join(path, name))
+	if splitByYear:
+		for name in os.listdir(path):
+			# only include years
+			if (re.match(r'^\d{4}$', name) and os.path.isdir(os.path.join(name, path))):
+				dirs.append(os.path.join(path, name))
+	else:
+		dirs = [path]
 
 	#print(dirs)
 	for yearDir in dirs:
@@ -43,4 +46,7 @@ def renamePhotos(path):
 
 
 if (__name__ == '__main__'):
-	renamePhotos(r'C:\Users\Greg\Pictures')
+	if (len(sys.argv) > 1):
+		renamePhotos(sys.argv[1], False)
+	else:
+		renamePhotos(r'C:\Users\Greg\Pictures', True)
