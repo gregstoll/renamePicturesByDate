@@ -31,7 +31,7 @@ def renamePhotos(path, splitByYear):
 				#print('original ' + str(tags['EXIF DateTimeOriginal']))
 				dt = datetime.datetime.strptime(dtString, '%Y:%m:%d %H:%M:%S')
 				def makeFilename(localDt):
-					return localDt.strftime('CA_%Y%m%d_%H_%M_%S.jpg')
+					return localDt.strftime('IMG_%Y%m%d_%H%M%S.jpg')
 				newFilename = makeFilename(dt)
 				#print('dig ' + str(tags['EXIF DateTimeDigitized']))
 				#for tag in tags.keys():
