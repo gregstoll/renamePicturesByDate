@@ -49,4 +49,5 @@ if (__name__ == '__main__'):
 	if (len(sys.argv) > 1):
 		renamePhotos(sys.argv[1], False)
 	else:
-		renamePhotos(r'C:\Users\Greg\Pictures', True)
+		print("Usage: renamePicturesByDate.py <directory>")
+		sys.exit(1)
