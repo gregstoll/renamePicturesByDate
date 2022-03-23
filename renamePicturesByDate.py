@@ -18,8 +18,7 @@ def renamePhotos(path, splitByYear):
 			for filename in files:
 				if not (filename.endswith('.JPG') or filename.endswith('.jpg')):
 					continue
-				if not (filename.startswith('IMG_')):
-					continue
+				startsWithImg = filename.startswith('IMG_')
 				pathname = os.path.join(root, filename)
 				#print(filename)
 				f = open(pathname, 'rb')
@@ -31,7 +30,10 @@ def renamePhotos(path, splitByYear):
 				#print('original ' + str(tags['EXIF DateTimeOriginal']))
 				dt = datetime.datetime.strptime(dtString, '%Y:%m:%d %H:%M:%S')
 				def makeFilename(localDt):
-					return localDt.strftime('IMG_%Y%m%d_%H%M%S.jpg')
+					format = '%Y%m%d_%H%M%S.jpg'
+					if startsWithImg:
+						format = 'IMG_' + format
+					return localDt.strftime(format)
 				newFilename = makeFilename(dt)
 				#print('dig ' + str(tags['EXIF DateTimeDigitized']))
 				#for tag in tags.keys():
