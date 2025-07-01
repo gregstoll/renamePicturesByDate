@@ -2,6 +2,14 @@ import sys, os, re, datetime
 sys.path.append(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'exifpy'))
 import exifread
 
+def parseDateTime(dtString, formats):
+	for format in formats:
+		try:
+			return datetime.datetime.strptime(dtString, format)
+		except:
+			pass
+	raise f"Failed to parse datetime string \"{format}\""
+
 def renamePhotos(path, splitByYear):
 	dirs = []
 	if splitByYear:
@@ -28,7 +36,7 @@ def renamePhotos(path, splitByYear):
 					continue
 				dtString = str(tags['EXIF DateTimeOriginal'])
 				#print('original ' + str(tags['EXIF DateTimeOriginal']))
-				dt = datetime.datetime.strptime(dtString, '%Y:%m:%d %H:%M:%S')
+				dt = parseDateTime(dtString, ['%Y:%m:%d %H:%M:%S', '%Y-%m-%dT%H:%M:%S', '%Y-%m-%dT%H:%M:%SZ'])
 				def makeFilename(localDt):
 					format = '%Y%m%d_%H%M%S.jpg'
 					if startsWithImg:
